@@ -1,0 +1,102 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Aug  6 22:51:47 2022
+
+@author: kuboo
+"""
+
+#import module
+import random
+
+
+
+#define limited game play
+def do_over(): #interaction upon game finish
+    print('Would you like to play another round? Type y for yes or n for no: \n')
+    start_over = input() #accept user input for a retry
+    if start_over == 'y': 
+        print('You have selected yes. You will start the game over.')
+        gameplay_limited()
+    elif start_over == 'n':
+        print('Would you prefer to have unlimited guesses? Type y for yes or n for no: \n')
+        new_game = input() #accept user input to leave this game
+        if new_game == 'y':
+            print('You have selected a new game.')
+            eternal_gameplay() #user selected a different game
+        elif new_game == 'n': #user selected no, quit.
+            print('You have selected no. Goodbye.')
+
+def gameplay_limited(): #gameplay for limited number of attempts
+    attempt = 4 #limits number of attempts
+    n = random.randint(1, 10) #selects random number
+    for turn in range(5): #defines range (how many attempts are counted)
+        print('Choose a number between 1 and 10: \n')            
+        number_guess = input() #accepts user input
+        if attempt == 0: #shuts down the for loop when all iterations are run
+            print('You lose! \n')
+            do_over() #allows for replay, new game, or quit
+        elif number_guess == n:
+            print('You are a winner! \n')
+            do_over()
+        else:
+           print('Wrong answer. Try again. Attempts remaining: ', attempt)#counts down remaining attempts
+           attempt -= 1
+           
+           
+#define unlimited game play
+def do_over2():
+    loop_run = True
+    while loop_run == True:
+        print('Would you like to play another round? Type y for yes or n for no: \n')
+        start_over = input() #accept user input for a retry
+        if start_over == 'y':
+            print('You have selected yes. You will start the game over. \n')
+            eternal_gameplay()
+        elif start_over == 'n':
+            print('Would you prefer to have limited guesses? Type y for yes or n for no: \n')
+            new_game = input() #accept user input to leave this game
+            if new_game == 'y':
+                print('You have selected a new game. \n')
+                gameplay_limited() #user selected a different game
+            elif new_game == 'n': #user selected no, quit.
+                print('You have selected no. Goodbye.')
+        loop_run = False #shuts down the while loop
+            
+
+def eternal_gameplay():
+    num = random.randint(1, 10)
+    attempt = 1
+    guess = int(input('I am thinking of a number between 1 and 10: \n')) #accept user input
+    while guess != num: #runs while guess and random number are not equal
+        if guess > num: 
+            print('Too high! \n')
+            attempt += 1 #increases attempt count
+            guess = int(input('Try again: \n'))
+        if guess < num:
+            print('Too low! \n')
+            attempt += 1 #increase attempt count
+            guess = int(input('Try again: \n'))
+        if guess == num:
+            print('Winner! \n') #no attempt increase, accounted for in intial variable defintion
+            print('You took ', attempt, 'attempts to finish! \n')
+            do_over2() #allows for replay, new game, or quit
+
+
+#gameplay code
+print('Would you like to play a game? Type y for yes or n for no: \n')
+user_input = input() #checks for user to wish to play
+if user_input == 'y':
+    print('What type of game would you like to play? Type l for limited guesses or u for unlimited guesses: \n')
+    game_type = input() #checks for which game version user wants to play
+    if game_type == 'l':
+        print('You have selected limited guesses. \n')
+        gameplay_limited() 
+    if game_type == 'u':
+        print('You have selected unlimited guesses. \n')
+        eternal_gameplay()           
+else:
+    print('You have chosen no. Goodbye. \n')
+    
+
+            
+        
